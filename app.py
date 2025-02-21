@@ -1,13 +1,14 @@
 from flask import Flask, request, render_template
 import numpy as np
 import joblib
+import os
+
+# Ensure correct model path in Render
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Get absolute path of current file
+model_path = os.path.join(BASE_DIR, 'tabnet_model.pkl')
 
 # Load the trained TabNet model and supporting objects
-import os
-model_path = os.path.join(os.getcwd(), 'tabnet_model.pkl')
 model_data = joblib.load(model_path)
-
-#model_data = joblib.load('/Users/abhijai/Downloads/tabnet_model.pkl')
 model = model_data['model']
 scaler = model_data['scaler']
 label_encoder = model_data['label_encoder']
@@ -23,7 +24,7 @@ def predict():
     try:
         # Retrieve form data
         N = float(request.form['Nitrogen'])
-        P = float(request.form['Phosporus'])  # Ensure this matches the HTML name attribute
+        P = float(request.form['Phosphorus'])  # Ensure it matches HTML form field
         K = float(request.form['Potassium'])
         temp = float(request.form['Temperature'])
         humidity = float(request.form['Humidity'])
@@ -50,4 +51,6 @@ def predict():
     return render_template('index.html', result=result)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # Use PORT assigned by Render, default to 10000 if not set
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port, debug=True)
