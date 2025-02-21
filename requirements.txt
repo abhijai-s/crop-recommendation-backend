@@ -1,7 +1,10 @@
 Flask
 gunicorn
 numpy
-joblib
-pytorch_tabnet
+pandas
+scikit-learn
+seaborn
+matplotlib
 torch
-
+pytorch-tabnet
+joblib
