@@ -3,7 +3,11 @@ import numpy as np
 import joblib
 
 # Load the trained TabNet model and supporting objects
-model_data = joblib.load('/Users/abhijai/Downloads/tabnet_model.pkl')
+import os
+model_path = os.path.join(os.getcwd(), 'tabnet_model.pkl')
+model_data = joblib.load(model_path)
+
+#model_data = joblib.load('/Users/abhijai/Downloads/tabnet_model.pkl')
 model = model_data['model']
 scaler = model_data['scaler']
 label_encoder = model_data['label_encoder']
